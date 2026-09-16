@@ -6,11 +6,11 @@
         {
             Console.WriteLine("Välkommen! Jag tänker på ett nummer. Kan du gissa vilket? Du får fem försök!");
 
-            Console.WriteLine(CheckGuess(0, 0));
+            Console.WriteLine(NumberGame(0, 0));
 
           }
 
-        static string CheckGuess(int guess, int secret)
+        static string NumberGame(int guess, int secret)
         {
             Random random = new Random();
             secret = random.Next(1, 20);
