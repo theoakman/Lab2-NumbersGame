@@ -155,8 +155,6 @@ namespace NumbersGame
                             Console.Clear();
                             break;
                         }
-
-
                     
 
                 } while (true);
