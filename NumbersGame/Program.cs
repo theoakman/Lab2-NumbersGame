@@ -39,128 +39,129 @@ namespace NumbersGame
 
             }
 
-            static void NumberGame(int difficulty)
+
+
+
+        }
+        static void NumberGame(int difficulty)
+        {
+            do
             {
-                do
+                Console.Clear();
+                Random reply = new Random();
+                string[] toHigh = { "Tyvär, du gissade för högt!", "Det där var för högt!", "Inte högre än det!", "Pro tip: Skriv ett lägre tal" };
+                string[] toLow = { "Tyvär, du gissade för lågt!", "Det där var för lågt!", "Inte lägre än det!", "Pro tip: Skriv ett högre tal" };
+                Random random = new Random();
+                int secretNumber = random.Next(1, difficulty);
+                int atemptsLeft = 5;
+                int guessInput = 0;
+
+                Console.WriteLine($"Välkommen!\nJag tänker på ett nummer\nKan du gissa vilket? Du får 5 försök!");
+
+                Console.WriteLine($"Gissa på ett tal mellan 1 och {difficulty - 1}:");
+
+
+                // The loop will keep going as long as the user doesent find write the righr number or their number of atmpts run out
+                while (guessInput != secretNumber && atemptsLeft != 0)
                 {
-                    Console.Clear();
-                    Random reply = new Random();
-                    string[] toHigh = { "Tyvär, du gissade för högt!", "Det där var för högt!", "Inte högre än det!", "Pro tip: Skriv ett lägre tal" };
-                    string[] toLow = { "Tyvär, du gissade för lågt!", "Det där var för lågt!", "Inte lägre än det!", "Pro tip: Skriv ett högre tal" };
-                    Random random = new Random();
-                    int secretNumber = random.Next(1, difficulty);
-                    int atemptsLeft = 5;
-                    int guessInput = 0;
 
-                    Console.WriteLine($"Välkommen!\nJag tänker på ett nummer\nKan du gissa vilket? Du får 5 försök!");
+                    string userInput = Console.ReadLine();
 
-                    Console.WriteLine($"Gissa på ett tal mellan 1 och {difficulty - 1}:");
-
-
-                    // The loop will keep going as long as the user doesent find write the righr number or their number of atmpts run out
-                    while (guessInput != secretNumber && atemptsLeft != 0)
+                    while (!int.TryParse(userInput, out guessInput))
                     {
+                        Console.WriteLine("Du måste skriva ett heltal.\nFörsök igen");
+                        userInput = Console.ReadLine();
+                    }
 
-                        string userInput = Console.ReadLine();
 
-                        while (!int.TryParse(userInput, out guessInput))
+                    if (guessInput > secretNumber)
+                    {
+                        atemptsLeft--;
+                        if (atemptsLeft != 0) //Stops the messege from being sent out after your last atempt
                         {
-                            Console.WriteLine("Du måste skriva ett heltal.\nFörsök igen");
-                            userInput = Console.ReadLine();
+                            Console.WriteLine(toHigh[reply.Next(toHigh.Length)]);
+                            Console.WriteLine($"Du har {atemptsLeft} försök kvar");
                         }
 
-
-                        if (guessInput > secretNumber)
+                        if (Math.Abs(guessInput - secretNumber) <= 1 && atemptsLeft != 0)
                         {
-                            atemptsLeft--;
-                            if (atemptsLeft != 0) //Stops the messege from being sent out after your last atempt
-                            {
-                                Console.WriteLine(toHigh[reply.Next(toHigh.Length)]);
-                                Console.WriteLine($"Du har {atemptsLeft} försök kvar");
-                            }
-
-                            if (Math.Abs(guessInput - secretNumber) <= 1 && atemptsLeft != 0)
-                            {
-                                Console.WriteLine("Men det bräns!");
-                            }
-                            else if (Math.Abs(guessInput - secretNumber) <= 4 && atemptsLeft != 0)
-                            {
-                                Console.WriteLine("Det var ganska nära");
-                            }
-                            else if (Math.Abs(guessInput - secretNumber) <= 10 && atemptsLeft != 0)
-                            {
-                                Console.WriteLine("Du är på rätt håll");
-                            }
-
+                            Console.WriteLine("Men det bräns!");
                         }
-
-                        else if (guessInput < secretNumber)
+                        else if (Math.Abs(guessInput - secretNumber) <= 4 && atemptsLeft != 0)
                         {
-                            atemptsLeft--;
-                            if (atemptsLeft != 0) //Stops the messege from being sent out after your last atempt (Again)
-                            {
-                                Console.WriteLine(toLow[reply.Next(toLow.Length)]);
-                                Console.WriteLine($"Du har {atemptsLeft} försök kvar");
-                            }
-
-                            if (Math.Abs(guessInput - secretNumber) <= 1 && atemptsLeft != 0)
-                            {
-                                Console.WriteLine("Men det bräns!");
-                            }
-                            else if (Math.Abs(guessInput - secretNumber) <= 4 && atemptsLeft != 0)
-                            {
-                                Console.WriteLine("Det var ganska nära");
-                            }
-                            else if (Math.Abs(guessInput - secretNumber) <= 10 && atemptsLeft != 0)
-                            {
-                                Console.WriteLine("Du är på rätt håll");
-                            }
-
+                            Console.WriteLine("Det var ganska nära");
+                        }
+                        else if (Math.Abs(guessInput - secretNumber) <= 10 && atemptsLeft != 0)
+                        {
+                            Console.WriteLine("Du är på rätt håll");
                         }
 
                     }
 
-
-                        // After the game is over the program tells the player if the won or lost the game
-
-                        if (atemptsLeft == 0)
+                    else if (guessInput < secretNumber)
+                    {
+                        atemptsLeft--;
+                        if (atemptsLeft != 0) //Stops the messege from being sent out after your last atempt (Again)
                         {
-                            Console.WriteLine($"Tyvärr, du lyckades inte gissa talet på fem försök!\nTalet var {secretNumber}");
-                        }
-                        else
-                        {
-                            Console.WriteLine("                                         ,---.                                                         \r\n,--.   ,--.       ,--.                   |   |                                                         \r\n|  |   |  | ,---. |  ,---.  ,---.  ,---. |  .'                                                         \r\n|  |.'.|  || .-. ||  .-.  || .-. || .-. ||  |                                                          \r\n|   ,'.   |' '-' '|  | |  |' '-' '' '-' '`--'                                                          \r\n'--'   '--' `---' `--' `--' `---'  `---' .--.                                                    ,---. \r\n,------.              ,--.    ,--.       '--'               ,--.              ,--.         ,--.  |   | \r\n|  .-.  \\ ,--.,--.    |  |,-. |  | ,--,--.,--.--. ,--,--. ,-|  | ,---.      ,-|  | ,---. ,-'  '-.|  .' \r\n|  |  \\  :|  ||  |    |     / |  |' ,-.  ||  .--'' ,-.  |' .-. || .-. :    ' .-. || .-. :'-.  .-'|  |  \r\n|  '--'  /'  ''  '    |  \\  \\ |  |\\ '-'  ||  |   \\ '-'  |\\ `-' |\\   --.    \\ `-' |\\   --.  |  |  `--'  \r\n`-------'  `----'     `--'`--'`--' `--`--'`--'    `--`--' `---'  `----'     `---'  `----'  `--'  .--.  \r\n                                                                                                 '--'  ");
-
+                            Console.WriteLine(toLow[reply.Next(toLow.Length)]);
+                            Console.WriteLine($"Du har {atemptsLeft} försök kvar");
                         }
 
-                        string answer;
-                        do
+                        if (Math.Abs(guessInput - secretNumber) <= 1 && atemptsLeft != 0)
                         {
-                            Console.WriteLine("Vill du spela igen?\nSkriv \"ja\" eller \"nej\" ");
-                            answer = Console.ReadLine();
-
-                            if (answer != "ja" && answer != "nej")
-                            {
-                                Console.WriteLine("Ojiltigt svar");
-                            }
-
-                        } while (answer != "ja" && answer != "nej");
-
-                        if (answer == "ja")
-                        {
-                            Console.Clear();
+                            Console.WriteLine("Men det bräns!");
                         }
-                        else if (answer == "nej")
+                        else if (Math.Abs(guessInput - secretNumber) <= 4 && atemptsLeft != 0)
                         {
-                            Console.Clear();
-                            break;
+                            Console.WriteLine("Det var ganska nära");
                         }
-                    
+                        else if (Math.Abs(guessInput - secretNumber) <= 10 && atemptsLeft != 0)
+                        {
+                            Console.WriteLine("Du är på rätt håll");
+                        }
 
-                } while (true);
+                    }
+
+                }
 
 
-            }
+                // After the game is over the program tells the player if the won or lost the game
+
+                if (atemptsLeft == 0)
+                {
+                    Console.WriteLine($"Tyvärr, du lyckades inte gissa talet på fem försök!\nTalet var {secretNumber}");
+                }
+                else
+                {
+                    Console.WriteLine("                                         ,---.                                                         \r\n,--.   ,--.       ,--.                   |   |                                                         \r\n|  |   |  | ,---. |  ,---.  ,---.  ,---. |  .'                                                         \r\n|  |.'.|  || .-. ||  .-.  || .-. || .-. ||  |                                                          \r\n|   ,'.   |' '-' '|  | |  |' '-' '' '-' '`--'                                                          \r\n'--'   '--' `---' `--' `--' `---'  `---' .--.                                                    ,---. \r\n,------.              ,--.    ,--.       '--'               ,--.              ,--.         ,--.  |   | \r\n|  .-.  \\ ,--.,--.    |  |,-. |  | ,--,--.,--.--. ,--,--. ,-|  | ,---.      ,-|  | ,---. ,-'  '-.|  .' \r\n|  |  \\  :|  ||  |    |     / |  |' ,-.  ||  .--'' ,-.  |' .-. || .-. :    ' .-. || .-. :'-.  .-'|  |  \r\n|  '--'  /'  ''  '    |  \\  \\ |  |\\ '-'  ||  |   \\ '-'  |\\ `-' |\\   --.    \\ `-' |\\   --.  |  |  `--'  \r\n`-------'  `----'     `--'`--'`--' `--`--'`--'    `--`--' `---'  `----'     `---'  `----'  `--'  .--.  \r\n                                                                                                 '--'  ");
+
+                }
+
+                string answer;
+                do
+                {
+                    Console.WriteLine("Vill du spela igen?\nSkriv \"ja\" eller \"nej\" ");
+                    answer = Console.ReadLine();
+
+                    if (answer != "ja" && answer != "nej")
+                    {
+                        Console.WriteLine("Ojiltigt svar");
+                    }
+
+                } while (answer != "ja" && answer != "nej");
+
+                if (answer == "ja")
+                {
+                    Console.Clear();
+                }
+                else if (answer == "nej")
+                {
+                    Console.Clear();
+                    break;
+                }
+
+
+            } while (true);
         }
     }
 }
